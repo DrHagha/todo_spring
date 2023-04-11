@@ -36,17 +36,8 @@ public class TodoController {
 			@AuthenticationPrincipal String userId,
 			@RequestBody TodoDTO dto) {
 		try {
-			/*
-			 * POST localhost:8080/todo
-			 * {
-			 * "title" : "My first todo",
-			 * "done" : false
-			 * }
-			 */
 
-			// dto �� �̿��� ���̺� �����ϱ� ���� entity�� �����Ѵ�.
 			TodoEntity entity = TodoDTO.toEntity(dto);
-			// entity userId�� �ӽ÷� �����Ѵ�.
 			entity.setId(null);
 			entity.setUserId(userId);
 
@@ -58,22 +49,9 @@ public class TodoController {
 			List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
 			log.info("Log:entities => dtos ok!");
 
-			// Response DTO�� �����Ѵ�.
-			/*
-			 * {
-			 * "error" : null,
-			 * "data": [
-			 * {
-			 * "id" : "402809817ed71ddf017ed71dfe720000",
-			 * "title" : "My first todo",
-			 * "done" : false
-			 * }
-			 * }
-			 */
 			ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
 			log.info("Log:responsedto ok!");
 
-			// HTTP Status 200 ���·� response �� �����Ѵ�.
 			return ResponseEntity.ok().body(response);
 		} catch (Exception e) {
 			String error = e.getMessage();
@@ -89,8 +67,6 @@ public class TodoController {
 		List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
 
 		ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
-
-		// HTTP Status 200 ���·� response �� �����Ѵ�.
 		return ResponseEntity.ok().body(response);
 
 	}
@@ -100,31 +76,17 @@ public class TodoController {
 			@AuthenticationPrincipal String userId,
 			@RequestBody TodoDTO dto) {
 		try {
-			/*
-			 * PUT localhost:8080/todo
-			 * {
-			 * "id" : "????????"
-			 * "title" : "Update first todo",
-			 * "done" : true
-			 * }
-			 */
-			// dto �� �̿��� ���̺� �����ϱ� ���� entity�� �����Ѵ�.
+
 			TodoEntity entity = TodoDTO.toEntity(dto);
 
-			// entity userId�� �ӽ÷� �����Ѵ�.
 			entity.setUserId(userId);
 
-			// service.create �� ���� repository �� entity�� �����Ѵ�.
-			// �̶� �Ѿ��� ���� ���� ���� �����Ƿ� List�� �ƴ� Optional �� �Ѵ�.
 			List<TodoEntity> entities = service.update(entity);
 
-			// entities �� dtos �� ��Ʈ�� ��ȯ�Ѵ�.
 			List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
 
-			// Response DTO�� �����Ѵ�.
 			ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
 
-			// HTTP Status 200 ���·� response �� �����Ѵ�.
 			return ResponseEntity.ok().body(response);
 		} catch (Exception e) {
 			String error = e.getMessage();
@@ -141,18 +103,14 @@ public class TodoController {
 		try {
 			TodoEntity entity = TodoDTO.toEntity(dto);
 
-			// entity userId�� �ӽ÷� �����Ѵ�.
 			entity.setUserId(userId);
 
 			List<TodoEntity> entities = service.delete(entity);
 
-			// entities �� dtos �� ��Ʈ�� ��ȯ�Ѵ�.
 			List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
 
-			// Response DTO�� �����Ѵ�.
 			ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
 
-			// HTTP Status 200 ���·� response �� �����Ѵ�.
 			return ResponseEntity.ok().body(response);
 		} catch (Exception e) {
 			String error = e.getMessage();
